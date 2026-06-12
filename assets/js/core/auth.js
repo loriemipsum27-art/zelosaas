@@ -41,7 +41,7 @@ export async function signUp({ email, password, nome }) {
     email,
     password,
     options: { data: { nome },
-  emailRedirectTo: 'http://127.0.0.1:5501/login.html'
+  emailRedirectTo: `${window.location.origin}/login.html`
 
 }
   });
