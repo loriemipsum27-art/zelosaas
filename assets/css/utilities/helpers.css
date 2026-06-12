@@ -1,0 +1,35 @@
+.u-text-14 {
+  font-size: 14px;
+}
+
+.u-text-center {
+  text-align: center;
+}
+
+.u-text-muted {
+  color: var(--ink-muted);
+}
+
+.u-text-green {
+  color: var(--green-mid);
+}
+
+.u-no-decoration {
+  text-decoration: none;
+}
+
+.u-ml-auto {
+  margin-left: auto;
+}
+
+.u-nowrap {
+  white-space: nowrap;
+}
+
+.u-flex-between-start-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}

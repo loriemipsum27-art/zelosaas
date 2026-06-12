@@ -1,0 +1,14 @@
+body {
+  font-family: var(--font-sans);
+}
+
+.logo,
+.page-title,
+.welcome,
+.section-title,
+.stat-value,
+.item-name,
+.modal-title,
+.upload-text {
+  font-family: var(--font-serif);
+}

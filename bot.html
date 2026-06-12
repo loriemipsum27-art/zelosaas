@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel SaaS - Venda Mais Digital</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans antialiased">
+
+    <div class="flex h-screen overflow-hidden">
+        <!-- MENU LATERAL -->
+        <aside class="w-64 bg-gray-900 border-r border-gray-800 p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="text-2xl">🤖</span>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">SmartBot SaaS</h1>
+                </div>
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center gap-3 bg-gray-800 text-white px-4 py-3 rounded-lg text-sm font-medium transition">📊 Dashboard</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:bg-gray-800 hover:text-white px-4 py-3 rounded-lg text-sm font-medium transition">⚙️ Configuração IA</a>
+                    <a href="#" class="flex items-center gap-3 text-gray-400 hover:bg-gray-800 hover:text-white px-4 py-3 rounded-lg text-sm font-medium transition">📱 Conectar WhatsApp</a>
+                </nav>
+            </div>
+            <div class="border-t border-gray-800 pt-4 text-xs text-gray-500 text-center">
+                Powered by n8n & WAHA
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto bg-gray-950 p-8">
+            <!-- TOPO -->
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold">Visão Geral</h2>
+                    <p class="text-sm text-gray-400">Gerencie o fluxo de atendimento inteligente dos seus clientes.</p>
+                </div>
+                <div class="flex items-center gap-2 bg-emerald-950/50 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    WAHA CONECTADO
+                </div>
+            </header>
+
+            <!-- CARDS DE MÉTRICAS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+                    <p class="text-sm text-gray-400 font-medium">Mensagens Processadas (IA)</p>
+                    <p class="text-3xl font-bold mt-2">1,508</p>
+                </div>
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+                    <p class="text-sm text-gray-400 font-medium">Bloqueios Anti-Loop</p>
+                    <p class="text-3xl font-bold text-amber-400 mt-2">42</p>
+                </div>
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-xl">
+                    <p class="text-sm text-gray-400 font-medium">Linhas Criadas (Supabase)</p>
+                    <p class="text-3xl font-bold text-blue-400 mt-2">347</p>
+                </div>
+            </div>
+
+            <!-- ÁREA DA LOGICA ATUAL (TABELA DE LOGS) -->
+            <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <h3 class="text-lg font-bold mb-4">Fluxo de Eventos Recentes</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-xs text-gray-400 uppercase">
+                                <th class="pb-3 font-semibold">Gatilho (WAHA)</th>
+                                <th class="pb-3 font-semibold">Histórico (Supabase)</th>
+                                <th class="pb-3 font-semibold">Resposta (Gemini)</th>
+                                <th class="pb-3 font-semibold">Ação (Status)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/50 text-sm">
+                            <tr>
+                                <td class="py-4 font-medium text-gray-300">"Oi, quanto custa?"</td>
+                                <td class="py-4 text-gray-500">Puxou 4 itens anteriores</td>
+                                <td class="py-4 text-indigo-400">"Olá! O valor varia..."</td>
+                                <td class="py-4"><span class="bg-green-500/10 text-green-400 px-2 py-1 rounded text-xs font-semibold">Salvo no Supabase</span></td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 font-medium text-gray-300">"Oi" <span class="text-xs text-amber-500 ml-1">(Looping)</span></td>
+                                <td class="py-4 text-gray-500">—</td>
+                                <td class="py-4 text-gray-500">Bloqueado no IF</td>
+                                <td class="py-4"><span class="bg-amber-500/10 text-amber-400 px-2 py-1 rounded text-xs font-semibold">Ignorado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

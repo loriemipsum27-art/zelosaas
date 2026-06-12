@@ -1,0 +1,19 @@
+/* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.5);
+    padding: 40px 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--cream);
+  }
+  .footer-logo span { color: var(--green-mid); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: rgba(245,240,232,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--cream); }

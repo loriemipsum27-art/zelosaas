@@ -1,0 +1,124 @@
+body[data-page='addItem'] {
+  line-height: 1.6;
+}
+
+body[data-page='addItem'] .page-title {
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+body[data-page='addItem'] .page-subtitle {
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 17px;
+  max-width: 540px;
+  margin: 0 auto 50px;
+}
+
+body[data-page='addItem'] .add-card {
+  border-radius: 32px;
+  box-shadow: var(--shadow-card);
+  padding: 52px;
+  border: 1px solid var(--border-subtle);
+}
+
+body[data-page='addItem'] .form-group {
+  margin-bottom: 24px;
+}
+
+body[data-page='addItem'] .form-group.full {
+  grid-column: 1 / -1;
+}
+
+body[data-page='addItem'] label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body[data-page='addItem'] input,
+body[data-page='addItem'] select,
+body[data-page='addItem'] textarea {
+  padding: 15px 18px;
+  border-radius: 14px;
+  font-size: 15px;
+}
+
+body[data-page='addItem'] input:focus,
+body[data-page='addItem'] select:focus,
+body[data-page='addItem'] textarea:focus {
+  box-shadow: var(--focus-ring-md);
+}
+
+body[data-page='addItem'] textarea {
+  min-height: 110px;
+}
+
+body[data-page='addItem'] .actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+body[data-page='addItem'] .btn-primary,
+body[data-page='addItem'] .btn-secondary {
+  flex: 1;
+  padding: 17px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+body[data-page='addItem'] .btn-primary:disabled {
+  opacity: 0.7;
+}
+
+body[data-page='addItem'] .scan-info {
+  font-size: 13px;
+  color: var(--green-mid);
+  text-align: center;
+  margin-top: 34px;
+}
+
+@media (max-width: 768px) {
+  body[data-page='addItem'] .add-card {
+    padding: 28px 22px;
+    border-radius: var(--radius-xl);
+  }
+
+  body[data-page='addItem'] .actions {
+    flex-direction: column;
+  }
+
+  body[data-page='addItem'] .upload-area {
+    padding: 50px 20px;
+    border-radius: var(--radius-xl);
+  }
+
+  body[data-page='addItem'] .upload-text {
+    font-size: 20px;
+  }
+
+  body[data-page='addItem'] .upload-icon-wrap {
+    width: 82px;
+    height: 82px;
+  }
+
+  body[data-page='addItem'] .upload-icon {
+    font-size: 36px;
+  }
+
+  body[data-page='addItem'] .page-title {
+    font-size: 34px;
+  }
+
+  body[data-page='addItem'] .toast {
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    min-width: auto;
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zelo — Entrar</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-page="login">
+
+<div class="auth-card">
+  <div class="logo">zel<span>o</span></div>
+  <p class="tagline">O teu lar em dia</p>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="login">Entrar</button>
+    <button class="tab" data-tab="register">Criar conta</button>
+  </div>
+
+  <div id="errorMsg" class="error-msg"></div>
+  <div id="successMsg" class="success-msg"></div>
+
+  <!-- LOGIN -->
+  <div id="panel-login" class="panel active">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="teu@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Palavra-passe</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" id="loginBtn">Entrar na minha conta</button>
+    <div class="footer-note">
+      <a href="#" id="forgotPasswordLink" class="u-text-green u-no-decoration">Esqueci a palavra-passe</a>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="panel-register" class="panel">
+    <div class="form-group">
+      <label>O teu nome</label>
+      <input type="text" id="regNome" placeholder="Delzin Abreu">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="regEmail" placeholder="teu@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Palavra-passe</label>
+      <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+    </div>
+    <button class="btn-primary" id="registerBtn">Criar conta gratuita</button>
+  </div>
+
+  <div class="footer-note u-mt-32">
+    Feito com ❤️ em Angola • Zelo © 2026
+  </div>
+</div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

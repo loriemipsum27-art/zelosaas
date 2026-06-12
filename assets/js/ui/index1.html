@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSI Model · 3D Layer Stack</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #04060f;
+  --slab-w: 520px;
+  --slab-h: 68px;
+  --slab-d: 22px;
+  --gap: 18px;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ambient bg */
+.bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 25%, rgba(99,102,241,.13) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 85% 75%, rgba(6,182,212,.10) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 55% 55%, rgba(168,85,247,.07) 0%, transparent 65%);
+}
+.scan {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,.018) 3px, rgba(0,0,0,.018) 4px);
+}
+.bracket { position:fixed; width:60px; height:60px; z-index:5; pointer-events:none; }
+.bracket.tl { top:20px; left:20px; border-top:1px solid rgba(6,182,212,.3); border-left:1px solid rgba(6,182,212,.3); }
+.bracket.tr { top:20px; right:20px; border-top:1px solid rgba(6,182,212,.3); border-right:1px solid rgba(6,182,212,.3); }
+.bracket.bl { bottom:20px; left:20px; border-bottom:1px solid rgba(6,182,212,.3); border-left:1px solid rgba(6,182,212,.3); }
+.bracket.br { bottom:20px; right:20px; border-bottom:1px solid rgba(6,182,212,.3); border-right:1px solid rgba(6,182,212,.3); }
+#pcv { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+header {
+  position: relative; z-index: 10;
+  text-align: center; margin-bottom: 44px;
+}
+.eyebrow { font-size:10px; letter-spacing:.4em; color:rgba(6,182,212,.65); text-transform:uppercase; margin-bottom:10px; }
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.5rem,3.5vw,2.4rem); font-weight:900; letter-spacing:.08em;
+  background: linear-gradient(120deg, #e2e8f0 0%, #a5b4fc 50%, #22d3ee 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.sub { margin-top:8px; font-size:11px; color:rgba(148,163,184,.4); letter-spacing:.1em; }
+
+/* ── scene ── */
+.scene {
+  position: relative; z-index: 10;
+  perspective: 2200px;
+  perspective-origin: 50% 42%;
+}
+
+.stack-wrap {
+  transform-style: preserve-3d;
+  transform: rotateX(55deg) rotateY(-18deg);
+  /* No CSS animation here — JS drives it so float pauses on hover */
+}
+
+/* ── single slab ── */
+.slab {
+  position: relative;
+  width: var(--slab-w);
+  height: var(--slab-h);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  margin-bottom: var(--gap);
+  transition: transform .6s cubic-bezier(.34,1.56,.64,1);
+}
+.slab:last-child { margin-bottom: 0; }
+.slab:hover { transform: translateZ(58px) translateY(-6px); z-index: 99; }
+
+/* ── 4 faces of the slab box ── */
+.face { position: absolute; backface-visibility: hidden; }
+
+/* TOP face */
+.face-top {
+  inset: 0;
+  transform: translateZ(calc(var(--slab-d) / 2));
+  border-radius: 10px;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  display: flex; align-items: center;
+  padding: 0 28px; gap: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.11);
+}
+/* shimmer */
+.face-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,.09) 50%, transparent 80%);
+  background-size: 220% 100%;
+  animation: sweep 4s ease-in-out infinite;
+  pointer-events: none; border-radius: inherit;
+}
+@keyframes sweep {
+  0%   { background-position: -100% 0; }
+  60%  { background-position: 210% 0; }
+  100% { background-position: 210% 0; }
+}
+/* bottom neon line */
+.face-top::after {
+  content: '';
+  position: absolute; bottom: 0; left: 8%; right: 8%; height: 1px;
+  opacity: .7; transition: opacity .35s;
+}
+.slab:hover .face-top::after { opacity: 1; }
+
+/* BOTTOM face — seen in isometric tilt */
+.face-bot {
+  left: 0; right: 0;
+  height: var(--slab-d);
+  bottom: calc(-1 * var(--slab-d));
+  transform-origin: top center;
+  transform: rotateX(-90deg);
+  border-radius: 0 0 6px 6px;
+}
+
+/* RIGHT face */
+.face-right {
+  top: 4px; bottom: 4px;
+  width: var(--slab-d);
+  right: calc(-1 * var(--slab-d));
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  border-radius: 0 6px 6px 0;
+}
+
+/* LEFT face */
+.face-left {
+  top: 4px; bottom: 4px;
+  width: var(--slab-d);
+  left: calc(-1 * var(--slab-d));
+  transform-origin: right center;
+  transform: rotateY(-90deg);
+  border-radius: 6px 0 0 6px;
+  opacity: .3;
+}
+
+/* glow below slab */
+.slab-glow {
+  position: absolute;
+  left: 5%; right: 5%;
+  bottom: calc(-1 * var(--slab-d) - 14px);
+  height: 20px; border-radius: 50%;
+  filter: blur(14px);
+  opacity: .38;
+  transform: translateZ(calc(-1 * var(--slab-d) / 2));
+  transition: opacity .4s, filter .4s;
+  pointer-events: none;
+}
+.slab:hover .slab-glow { opacity: .8; filter: blur(24px); }
+
+/* pulse ring on hover */
+.slab-ring {
+  position: absolute; inset: -3px;
+  border-radius: 13px;
+  border: 1px solid transparent;
+  transform: translateZ(calc(var(--slab-d) / 2 + 2px));
+  pointer-events: none; opacity: 0; transition: opacity .2s;
+}
+.slab:hover .slab-ring { opacity: 1; animation: rpulse 1.4s ease-out infinite; }
+@keyframes rpulse {
+  0%   { transform: translateZ(calc(var(--slab-d)/2+2px)) scale(1);    opacity:.9; }
+  100% { transform: translateZ(calc(var(--slab-d)/2+2px)) scale(1.05); opacity:0; }
+}
+
+/* ── content inside top face ── */
+.num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px; font-weight: 900; min-width: 34px; text-align: center;
+  flex-shrink: 0; text-shadow: 0 0 24px currentColor;
+}
+.sep { width:1px; height:38px; flex-shrink:0; background:currentColor; opacity:.2; }
+.info { flex:1; min-width:0; }
+.name {
+  font-family: 'Orbitron', sans-serif;
+  font-size:12px; font-weight:600; letter-spacing:.1em;
+  color:rgba(226,232,240,.95);
+  text-shadow:0 0 16px rgba(255,255,255,.25);
+}
+.desc {
+  font-size:10px; font-weight:300; letter-spacing:.03em;
+  color:rgba(148,163,184,.5); margin-top:4px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.pdu {
+  font-size:9px; font-weight:500; letter-spacing:.14em;
+  padding:3px 11px; border-radius:20px;
+  border:1px solid currentColor; flex-shrink:0;
+  opacity:.5; transition:opacity .3s; text-transform:uppercase;
+}
+.slab:hover .pdu { opacity:1; }
+
+/* ── per-layer colours ── */
+/* helper: face opacity applied via direct rules */
+/* 7 */
+.l7 .face-top   { background:linear-gradient(135deg,rgba(255,107,157,.22),rgba(196,77,255,.16)); border-color:rgba(255,107,157,.32); }
+.l7 .face-top::after { background:linear-gradient(90deg,transparent,#ff6b9d,#c44dff,transparent); box-shadow:0 0 10px #ff6b9d; }
+.l7 .face-bot   { background:linear-gradient(180deg,rgba(255,107,157,.6),rgba(196,77,255,.3)); opacity:.6; }
+.l7 .face-right { background:linear-gradient(90deg,rgba(255,107,157,.7),rgba(255,107,157,.05)); opacity:.5; }
+.l7 .face-left  { background:rgba(255,107,157,.3); }
+.l7 .slab-glow  { background:#ff6b9d; }
+.l7 .slab-ring  { border-color:rgba(255,107,157,.65); box-shadow:0 0 20px rgba(255,107,157,.4); }
+.l7 .num { color:#ff6b9d; } .l7 .sep { color:#ff6b9d; } .l7 .pdu { color:#ff6b9d; }
+.l7 .face-top::before { animation-delay:0s; }
+/* 6 */
+.l6 .face-top   { background:linear-gradient(135deg,rgba(168,85,247,.22),rgba(99,102,241,.16)); border-color:rgba(168,85,247,.32); }
+.l6 .face-top::after { background:linear-gradient(90deg,transparent,#a855f7,#6366f1,transparent); box-shadow:0 0 10px #a855f7; }
+.l6 .face-bot   { background:linear-gradient(180deg,rgba(168,85,247,.6),rgba(99,102,241,.3)); opacity:.6; }
+.l6 .face-right { background:linear-gradient(90deg,rgba(168,85,247,.7),rgba(168,85,247,.05)); opacity:.5; }
+.l6 .face-left  { background:rgba(168,85,247,.3); }
+.l6 .slab-glow  { background:#a855f7; }
+.l6 .slab-ring  { border-color:rgba(168,85,247,.65); box-shadow:0 0 20px rgba(168,85,247,.4); }
+.l6 .num { color:#a855f7; } .l6 .sep { color:#a855f7; } .l6 .pdu { color:#a855f7; }
+.l6 .face-top::before { animation-delay:.45s; }
+/* 5 */
+.l5 .face-top   { background:linear-gradient(135deg,rgba(99,102,241,.22),rgba(59,130,246,.16)); border-color:rgba(99,102,241,.32); }
+.l5 .face-top::after { background:linear-gradient(90deg,transparent,#6366f1,#3b82f6,transparent); box-shadow:0 0 10px #6366f1; }
+.l5 .face-bot   { background:linear-gradient(180deg,rgba(99,102,241,.6),rgba(59,130,246,.3)); opacity:.6; }
+.l5 .face-right { background:linear-gradient(90deg,rgba(99,102,241,.7),rgba(99,102,241,.05)); opacity:.5; }
+.l5 .face-left  { background:rgba(99,102,241,.3); }
+.l5 .slab-glow  { background:#6366f1; }
+.l5 .slab-ring  { border-color:rgba(99,102,241,.65); box-shadow:0 0 20px rgba(99,102,241,.4); }
+.l5 .num { color:#818cf8; } .l5 .sep { color:#818cf8; } .l5 .pdu { color:#818cf8; }
+.l5 .face-top::before { animation-delay:.9s; }
+/* 4 */
+.l4 .face-top   { background:linear-gradient(135deg,rgba(6,182,212,.22),rgba(8,145,178,.16)); border-color:rgba(6,182,212,.32); }
+.l4 .face-top::after { background:linear-gradient(90deg,transparent,#06b6d4,#0891b2,transparent); box-shadow:0 0 10px #06b6d4; }
+.l4 .face-bot   { background:linear-gradient(180deg,rgba(6,182,212,.6),rgba(8,145,178,.3)); opacity:.6; }
+.l4 .face-right { background:linear-gradient(90deg,rgba(6,182,212,.7),rgba(6,182,212,.05)); opacity:.5; }
+.l4 .face-left  { background:rgba(6,182,212,.3); }
+.l4 .slab-glow  { background:#06b6d4; }
+.l4 .slab-ring  { border-color:rgba(6,182,212,.65); box-shadow:0 0 20px rgba(6,182,212,.4); }
+.l4 .num { color:#22d3ee; } .l4 .sep { color:#22d3ee; } .l4 .pdu { color:#22d3ee; }
+.l4 .face-top::before { animation-delay:1.35s; }
+/* 3 */
+.l3 .face-top   { background:linear-gradient(135deg,rgba(16,185,129,.22),rgba(5,150,105,.16)); border-color:rgba(16,185,129,.32); }
+.l3 .face-top::after { background:linear-gradient(90deg,transparent,#10b981,#059669,transparent); box-shadow:0 0 10px #10b981; }
+.l3 .face-bot   { background:linear-gradient(180deg,rgba(16,185,129,.6),rgba(5,150,105,.3)); opacity:.6; }
+.l3 .face-right { background:linear-gradient(90deg,rgba(16,185,129,.7),rgba(16,185,129,.05)); opacity:.5; }
+.l3 .face-left  { background:rgba(16,185,129,.3); }
+.l3 .slab-glow  { background:#10b981; }
+.l3 .slab-ring  { border-color:rgba(16,185,129,.65); box-shadow:0 0 20px rgba(16,185,129,.4); }
+.l3 .num { color:#34d399; } .l3 .sep { color:#34d399; } .l3 .pdu { color:#34d399; }
+.l3 .face-top::before { animation-delay:1.8s; }
+/* 2 */
+.l2 .face-top   { background:linear-gradient(135deg,rgba(245,158,11,.22),rgba(217,119,6,.16)); border-color:rgba(245,158,11,.32); }
+.l2 .face-top::after { background:linear-gradient(90deg,transparent,#f59e0b,#d97706,transparent); box-shadow:0 0 10px #f59e0b; }
+.l2 .face-bot   { background:linear-gradient(180deg,rgba(245,158,11,.6),rgba(217,119,6,.3)); opacity:.6; }
+.l2 .face-right { background:linear-gradient(90deg,rgba(245,158,11,.7),rgba(245,158,11,.05)); opacity:.5; }
+.l2 .face-left  { background:rgba(245,158,11,.3); }
+.l2 .slab-glow  { background:#f59e0b; }
+.l2 .slab-ring  { border-color:rgba(245,158,11,.65); box-shadow:0 0 20px rgba(245,158,11,.4); }
+.l2 .num { color:#fbbf24; } .l2 .sep { color:#fbbf24; } .l2 .pdu { color:#fbbf24; }
+.l2 .face-top::before { animation-delay:2.25s; }
+/* 1 */
+.l1 .face-top   { background:linear-gradient(135deg,rgba(239,68,68,.22),rgba(220,38,38,.16)); border-color:rgba(239,68,68,.32); }
+.l1 .face-top::after { background:linear-gradient(90deg,transparent,#ef4444,#dc2626,transparent); box-shadow:0 0 10px #ef4444; }
+.l1 .face-bot   { background:linear-gradient(180deg,rgba(239,68,68,.6),rgba(220,38,38,.3)); opacity:.6; }
+.l1 .face-right { background:linear-gradient(90deg,rgba(239,68,68,.7),rgba(239,68,68,.05)); opacity:.5; }
+.l1 .face-left  { background:rgba(239,68,68,.3); }
+.l1 .slab-glow  { background:#ef4444; }
+.l1 .slab-ring  { border-color:rgba(239,68,68,.65); box-shadow:0 0 20px rgba(239,68,68,.4); }
+.l1 .num { color:#f87171; } .l1 .sep { color:#f87171; } .l1 .pdu { color:#f87171; }
+.l1 .face-top::before { animation-delay:2.7s; }
+
+/* ── info panel ── */
+#panel {
+  position:fixed; right:2rem; top:50%;
+  transform:translateY(-50%) translateX(24px);
+  width:228px;
+  background:rgba(4,6,15,.9);
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px; padding:1.4rem 1.2rem;
+  z-index:100; pointer-events:none;
+  opacity:0; transition:opacity .3s ease, transform .3s ease;
+}
+#panel.on { opacity:1; transform:translateY(-50%) translateX(0); }
+#p-num  { font-family:'Orbitron',sans-serif; font-size:44px; font-weight:900; line-height:1; }
+#p-name { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:600; letter-spacing:.07em; color:rgba(226,232,240,.9); margin:6px 0 12px; }
+#p-line { height:1px; margin-bottom:12px; opacity:.2; }
+.pr { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
+.pr-l { font-size:9px; letter-spacing:.1em; color:rgba(148,163,184,.5); text-transform:uppercase; }
+.pr-v { font-size:10px; color:rgba(226,232,240,.8); }
+#p-desc { margin-top:12px; font-size:10px; line-height:1.65; color:rgba(148,163,184,.6); }
+#p-tags { margin-top:12px; display:flex; flex-wrap:wrap; gap:5px; }
+.tag { font-size:8px; padding:2px 8px; border-radius:4px; border:1px solid currentColor; letter-spacing:.06em; opacity:.65; }
+
+@media(max-width:680px){
+  :root{ --slab-w:300px; --slab-h:56px; --slab-d:16px; }
+  .desc,.pdu{ display:none; }
+  #panel{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="scan"></div>
+<canvas id="pcv"></canvas>
+<div class="bracket tl"></div><div class="bracket tr"></div>
+<div class="bracket bl"></div><div class="bracket br"></div>
+
+<header>
+  <p class="eyebrow">// ISO 7498 · Network Architecture</p>
+  <h1>OSI REFERENCE MODEL</h1>
+  <p class="sub">Open Systems Interconnection · 7-Layer Stack</p>
+</header>
+
+<div class="scene">
+  <div class="stack-wrap" id="stackWrap">
+
+    <div class="slab l7" data-l="7">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">7</span><span class="sep"></span>
+        <div class="info"><div class="name">Application</div><div class="desc">End-user interface · HTTP · FTP · SMTP · DNS · SSH</div></div>
+        <span class="pdu">Data</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l6" data-l="6">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">6</span><span class="sep"></span>
+        <div class="info"><div class="name">Presentation</div><div class="desc">Encoding · Encryption · Compression · TLS · SSL</div></div>
+        <span class="pdu">Data</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l5" data-l="5">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">5</span><span class="sep"></span>
+        <div class="info"><div class="name">Session</div><div class="desc">Connection management · RPC · NetBIOS · PPTP · SIP</div></div>
+        <span class="pdu">Data</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l4" data-l="4">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">4</span><span class="sep"></span>
+        <div class="info"><div class="name">Transport</div><div class="desc">Reliability · Flow control · TCP · UDP · SCTP · QUIC</div></div>
+        <span class="pdu">Segment</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l3" data-l="3">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">3</span><span class="sep"></span>
+        <div class="info"><div class="name">Network</div><div class="desc">Routing · Logical addressing · IP · ICMP · OSPF · BGP</div></div>
+        <span class="pdu">Packet</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l2" data-l="2">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">2</span><span class="sep"></span>
+        <div class="info"><div class="name">Data Link</div><div class="desc">MAC addressing · Error detection · Ethernet · PPP · ARP</div></div>
+        <span class="pdu">Frame</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+    <div class="slab l1" data-l="1">
+      <div class="slab-ring"></div>
+      <div class="face face-top">
+        <span class="num">1</span><span class="sep"></span>
+        <div class="info"><div class="name">Physical</div><div class="desc">Signals · Cables · Radio · RS-232 · DSL · 802.11</div></div>
+        <span class="pdu">Bit</span>
+      </div>
+      <div class="face face-bot"></div>
+      <div class="face face-right"></div>
+      <div class="face face-left"></div>
+      <div class="slab-glow"></div>
+    </div>
+
+  </div>
+</div>
+
+<aside id="panel">
+  <div id="p-num">7</div>
+  <div id="p-name">Application</div>
+  <div id="p-line"></div>
+  <div class="pr"><span class="pr-l">PDU</span><span class="pr-v" id="p-pdu">Data</span></div>
+  <div class="pr"><span class="pr-l">Layer type</span><span class="pr-v" id="p-type">Host</span></div>
+  <div class="pr"><span class="pr-l">Device</span><span class="pr-v" id="p-dev">Gateway</span></div>
+  <p id="p-desc"></p>
+  <div id="p-tags"></div>
+</aside>
+
+<script>
+const DATA = {
+  7:{ name:'Application', pdu:'Data',    type:'Host',  dev:'Gateway / Proxy', color:'#ff6b9d',
+      desc:'Provides network services to end-user applications — high-level protocols, info representation and user authentication.',
+      protos:['HTTP','HTTPS','FTP','SMTP','DNS','SSH','SNMP'] },
+  6:{ name:'Presentation', pdu:'Data',  type:'Host',  dev:'Gateway',         color:'#a855f7',
+      desc:'Translates between application and network formats. Handles encryption, decryption, compression and character encoding.',
+      protos:['TLS','SSL','JPEG','MPEG','GIF','ASCII','XDR'] },
+  5:{ name:'Session',     pdu:'Data',   type:'Host',  dev:'Gateway',         color:'#818cf8',
+      desc:'Establishes, manages and terminates communication sessions. Controls dialogue and provides synchronisation points.',
+      protos:['RPC','NetBIOS','PPTP','SIP','NFS','SQL'] },
+  4:{ name:'Transport',   pdu:'Segment',type:'Host',  dev:'Load Balancer',   color:'#22d3ee',
+      desc:'Ensures reliable or fast end-to-end delivery with flow control, error recovery and port-based multiplexing.',
+      protos:['TCP','UDP','SCTP','DCCP','QUIC'] },
+  3:{ name:'Network',     pdu:'Packet', type:'Media', dev:'Router',          color:'#34d399',
+      desc:'Determines best path to route packets across interconnected networks using logical (IP) addressing.',
+      protos:['IP','ICMP','IGMP','IPSec','OSPF','BGP','RIP'] },
+  2:{ name:'Data Link',   pdu:'Frame',  type:'Media', dev:'Switch / Bridge', color:'#fbbf24',
+      desc:'Node-to-node data transfer with MAC addressing and error detection/correction within a single network segment.',
+      protos:['Ethernet','PPP','HDLC','ARP','802.11','ATM'] },
+  1:{ name:'Physical',    pdu:'Bit',    type:'Media', dev:'Hub / Repeater',  color:'#f87171',
+      desc:'Transmits raw bit streams over physical media. Defines electrical, mechanical and procedural interface standards.',
+      protos:['RS-232','DSL','802.11','USB','Bluetooth','Coax'] }
+};
+
+/* panel */
+const panel=document.getElementById('panel');
+function showPanel(n){
+  const d=DATA[n];
+  document.getElementById('p-num').textContent=n;
+  document.getElementById('p-num').style.color=d.color;
+  document.getElementById('p-name').textContent=d.name;
+  document.getElementById('p-line').style.background=d.color;
+  document.getElementById('p-pdu').textContent=d.pdu;
+  document.getElementById('p-type').textContent=d.type+' layer';
+  document.getElementById('p-dev').textContent=d.dev;
+  document.getElementById('p-desc').textContent=d.desc;
+  document.getElementById('p-tags').innerHTML=d.protos.map(p=>`<span class="tag" style="color:${d.color}">${p}</span>`).join('');
+  panel.classList.add('on');
+}
+function hidePanel(){ panel.classList.remove('on'); }
+document.querySelectorAll('.slab').forEach(el=>{
+  const n=+el.dataset.l;
+  el.addEventListener('mouseenter',()=>showPanel(n));
+  el.addEventListener('mouseleave',hidePanel);
+});
+
+/* JS-driven float + mouse parallax */
+const wrap=document.getElementById('stackWrap');
+let tRX=55, tRY=-18, cRX=55, cRY=-18, floatT=0, hovered=false;
+wrap.addEventListener('mouseenter',()=>hovered=true);
+wrap.addEventListener('mouseleave',()=>hovered=false);
+document.addEventListener('mousemove',e=>{
+  tRX=55+(e.clientY/innerHeight-.5)*10;
+  tRY=-18+(e.clientX/innerWidth-.5)*18;
+});
+(function tick(){
+  cRX+=(tRX-cRX)*.045; cRY+=(tRY-cRY)*.045;
+  if(!hovered) floatT+=.009;
+  const fy=hovered?0:Math.sin(floatT)*12;
+  wrap.style.transform=`rotateX(${cRX}deg) rotateY(${cRY}deg) translateY(${fy}px)`;
+  requestAnimationFrame(tick);
+})();
+
+/* particles */
+const cv=document.getElementById('pcv'), cx=cv.getContext('2d');
+const COLS=['#ff6b9d','#a855f7','#818cf8','#22d3ee','#34d399','#fbbf24','#f87171'];
+let W,H,pts;
+function resize(){ W=cv.width=innerWidth; H=cv.height=innerHeight; }
+function mkPts(n=85){ pts=Array.from({length:n},()=>({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-.5)*.28, vy:(Math.random()-.5)*.28, r:Math.random()*1.5+.4, col:COLS[Math.random()*COLS.length|0], a:Math.random()*.35+.08, ph:Math.random()*Math.PI*2, ps:Math.random()*.018+.004 })); }
+function draw(){ cx.clearRect(0,0,W,H); pts.forEach(p=>{ p.ph+=p.ps; const a=p.a*(.55+.45*Math.sin(p.ph)); cx.beginPath(); cx.arc(p.x,p.y,p.r,0,Math.PI*2); cx.fillStyle=p.col+Math.round(a*255).toString(16).padStart(2,'0'); cx.fill(); p.x+=p.vx; p.y+=p.vy; if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0; }); requestAnimationFrame(draw); }
+resize(); mkPts(); window.addEventListener('resize',()=>{resize();mkPts();}); draw();
+</script>
+</body>
+</html>

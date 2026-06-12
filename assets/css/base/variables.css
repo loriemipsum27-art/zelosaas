@@ -1,0 +1,48 @@
+:root {
+  --cream: #F5F0E8;
+  --cream-dark: #EDE7D8;
+  --ink: #1A1710;
+  --ink-soft: #3D3A32;
+  --ink-muted: #7A7568;
+  --green: #2D5E3A;
+  --green-light: #C8DFD0;
+  --green-mid: #4A8C5C;
+  --amber: #C97B2A;
+  --amber-light: #F5E0C0;
+  --white: #FDFCF8;
+  --red: #D64545;
+  --danger: #B03A2E;
+  --danger-soft: #F5D5D0;
+  --danger-light: #FDECEA;
+  --danger-border: #B03A2E;
+  --danger-hover: #FEF0EE;
+  --surface: #FFFFFF;
+  --border-soft: rgba(26, 23, 16, 0.08);
+  --border-subtle: rgba(26, 23, 16, 0.06);
+  --border-strong: rgba(26, 23, 16, 0.15);
+  --focus-ring-sm: 0 0 0 3px rgba(74, 140, 92, 0.1);
+  --focus-ring-md: 0 0 0 4px rgba(74, 140, 92, 0.1);
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 30px;
+  --radius-pill: 99px;
+  --shadow-auth: 0 10px 60px rgba(26, 23, 16, 0.10);
+  --shadow-card:
+    0 10px 40px rgba(26, 23, 16, 0.06),
+    0 2px 8px rgba(26, 23, 16, 0.04);
+  --shadow-toast:
+    0 20px 50px rgba(0, 0, 0, 0.10),
+    0 2px 10px rgba(0, 0, 0, 0.04);
+  --shadow-upload-hover:
+    0 10px 40px rgba(74, 140, 92, 0.12),
+    inset 0 0 0 1px rgba(74, 140, 92, 0.05);
+  --shadow-upload-icon:
+    0 10px 30px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --shadow-mobile-sidebar: 24px 0 60px rgba(26, 23, 16, 0.18);
+  --font-sans: 'DM Sans', sans-serif;
+  --font-serif: 'Fraunces', serif;
+}

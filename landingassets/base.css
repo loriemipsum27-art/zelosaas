@@ -1,0 +1,28 @@
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F5F0E8;
+    --cream-dark: #EDE7D8;
+    --ink: #1A1710;
+    --ink-soft: #3D3A32;
+    --ink-muted: #7A7568;
+    --green: #2D5E3A;
+    --green-light: #C8DFD0;
+    --green-mid: #4A8C5C;
+    --amber: #C97B2A;
+    --amber-light: #F5E0C0;
+    --red-light: #F5D5D0;
+    --red: #B03A2E;
+    --white: #FDFCF8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }

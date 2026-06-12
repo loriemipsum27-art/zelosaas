@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Zelo — Adicionar Novo Item</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body data-page="addItem">
+
+<header>
+  <div class="logo">zel<span>o</span></div>
+
+  <div class="page-context">
+    Adicionar Novo Item
+  </div>
+</header>
+
+<div class="main-container">
+
+  <h1 class="page-title">Adicionar novo item</h1>
+
+  <p class="page-subtitle">
+    Tira uma foto ou preenche os dados. A nossa IA vai extrair automaticamente informações da fatura em segundos.
+  </p>
+
+  <div class="add-card">
+
+    <!-- UPLOAD -->
+
+    <label class="upload-area">
+
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*,.pdf"
+        hidden
+      >
+
+      <div class="upload-glow"></div>
+
+      <div class="upload-inner">
+
+        <div class="upload-icon-wrap">
+          <div class="upload-icon">📸</div>
+        </div>
+
+        <div class="upload-text">
+          Essa funcionalidade estará disponivel em breve...
+        </div>
+
+        <div class="upload-subtext">
+          Funciona com faturas em papel, PDFs, caixas de produtos e capturas de ecrã
+        </div>
+
+        <div class="upload-ai">
+
+          <p>🤖 IA preparada para extrair automaticamente:</p>
+
+          <div class="ai-tags">
+            <span>Nome</span>
+            <span>Garantia</span>
+            <span>Marca</span>
+            <span>Data</span>
+          </div>
+
+        </div>
+
+        <div class="upload-preview" id="uploadPreview">
+          <img id="previewImage">
+        </div>
+
+      </div>
+
+    </label>
+
+    <!-- DIVIDER -->
+
+    <div class="or-divider">
+      <span>ou preenche manualmente</span>
+    </div>
+
+    <!-- FORM -->
+
+    <form id="addItemForm">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Nome do produto / equipamento</label>
+
+          <input
+            type="text"
+            name="nome"
+            maxlength="80"
+            placeholder="Ex: Máquina de lavar Bosch Série 6"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Marca</label>
+
+          <input
+            type="text"
+            name="marca"
+            maxlength="40"
+            placeholder="Ex: Samsung, Toyota, Apple"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Data de compra</label>
+
+          <input
+            type="date"
+            name="dataCompra"
+            id="dataCompra"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Duração da garantia</label>
+
+          <select name="garantia" required>
+            <option value="">Seleciona a duração</option>
+            <option value="6">6 meses</option>
+            <option value="12">1 ano</option>
+            <option value="24" selected>2 anos</option>
+            <option value="36">3 anos</option>
+            <option value="60">5 anos</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label>Número de série (opcional)</label>
+
+          <input
+            name="serial"
+            type="text"
+            maxlength="60"
+            placeholder="Ex: SN1234567890ABC"
+          >
+        </div>
+
+        <div class="form-group full">
+          <label>Categoria</label>
+
+          <select name="categoria" required>
+            <option value="">Seleciona a categoria</option>
+            <option value="eletrodomestico">Eletrodomésticos</option>
+            <option value="eletronica">Eletrónica</option>
+            <option value="automovel">Automóvel</option>
+            <option value="moveis">Móveis</option>
+            <option value="outros">Outros</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label>Notas adicionais</label>
+
+          <textarea
+            name="notas"
+            rows="4"
+            maxlength="300"
+            placeholder="Localização na casa, observações importantes..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="submit"
+          class="btn-primary"
+          id="submitBtn"
+        >
+          Adicionar ao meu inventário
+        </button>
+
+        <button
+          type="button"
+          class="btn-secondary"
+          id="cancelBtn"
+        >
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+    <div class="scan-info">
+      ⚡ A maioria dos utilizadores leva apenas
+      <strong>3 segundos</strong>
+      a adicionar um item usando a câmara
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TOAST -->
+
+<div class="toast success" id="toast">
+
+  <div class="toast-icon" id="toastIcon">
+    ✅
+  </div>
+
+  <div class="toast-content">
+
+    <h4 id="toastTitle">
+      Sucesso
+    </h4>
+
+    <p id="toastMessage">
+      Item guardado com sucesso.
+    </p>
+
+  </div>
+
+</div>
+
+<script type="module" src="assets/js/main.js"></script>
+
+</body>
+</html>

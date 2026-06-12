@@ -1,0 +1,44 @@
+/* Configurações básicas do site */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #0b0f19; /* Fundo escuro igual ao do Antigravity */
+    color: #ffffff;
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+
+/* O SEGREDO DO POSICIONAMENTO: Sticky / Fixed */
+.animation-container {
+    position: fixed; /* Mantém o elemento preso na tela */
+    top: 0;
+    right: 0;
+    width: 400px; /* Largura da animação */
+    height: 400px; /* Altura da animação */
+    z-index: 10; /* Garante que ela fique por cima do texto */
+    pointer-events: none; /* Permite clicar no texto atrás da animação */
+}
+
+/* Ajuste do elemento de vídeo/animação */
+.animation-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: screen; /* Remove imperfeições pretas do fundo se houver */
+    opacity: 0.9; /* Deixa levemente transparente para um visual profissional */
+}
+
+/* Estilo do texto apenas para demonstração */
+.content {
+    max-width: 600px;
+    padding: 80px 40px;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.spacer {
+    height: 120vh; /* Cria espaço para você conseguir rolar a página */
+}

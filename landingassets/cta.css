@@ -1,0 +1,110 @@
+ /* CTA */
+  .cta-section {
+    padding: 96px 5%;
+    text-align: center;
+    background: var(--ink);
+    color: var(--cream);
+    position: relative; overflow: hidden;
+    
+  }
+
+  .cta-bg {
+    position: absolute; border-radius: 50%;
+    background: var(--green);
+    opacity: 0.15; pointer-events: none;
+  }
+
+  .cta-bg.b1 { 
+    width: 500px; 
+    height: 500px; 
+    top: -200px; 
+    right: -100px; 
+  
+  }
+  .cta-bg.b2 { 
+    width: 300px; 
+    height: 300px; 
+    bottom: -100px; 
+    left: -50px; 
+  
+  }
+  .cta-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 5vw, 60px);
+    font-weight: 700; letter-spacing: -1.5px;
+    line-height: 1.1; margin-bottom: 20px;
+    position: relative;
+
+  }
+
+  .cta-section p {
+    font-size: 17px; 
+    color: rgba(245,240,232,0.65);
+    max-width: 480px; 
+    margin: 0 auto 40px;
+    position: relative;
+
+  }
+  
+  /*
+  .cta-input-row {
+    display: flex; 
+    gap: 10px; 
+    justify-content: center; 
+    flex-wrap: wrap;
+    position: relative;
+
+  }
+    */
+
+  .cta-input {
+    padding: 13px 20px;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: var(--cream);
+    font-size: 15px; font-family: 'DM Sans', sans-serif;
+    width: 280px; outline: none;
+    transition: border-color 0.2s;
+    
+  }
+  .cta-input::placeholder { color: rgba(245,240,232,0.4); }
+  .cta-input:focus { border-color: rgba(255,255,255,0.5); }
+
+  .btn-white {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 13px 28px;
+    border-radius: 99px;
+    font-size: 15px; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+
+  }
+
+  .btn-white:hover { transform: translateY(-2px); }
+
+  .cta-feedback {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--cream-dark);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+  opacity 0.3s ease,
+  transform 0.3s ease;
+
+}
+
+.cta-feedback.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* loading button */
+.btn-white.loading {
+  opacity: 0.7;
+  pointer-events: none;
+
+}

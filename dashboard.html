@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zelo — O teu lar em dia</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-page="dashboard">
+
+<header>
+  <div class="nav-left">
+    <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Abrir menu">
+      <span>☰</span>
+    </button>
+    <div class="logo">zel<span>o</span></div>
+  </div>
+  <div class="nav-right">
+    <input type="text" class="search-bar" id="searchBar" placeholder="Procurar...">
+    <div class="avatar" id="userAvatar">?</div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+  <nav class="sidebar">
+    <a href="#" class="active" data-view="inicio" data-sidebar-link="true"><span>🏠</span> Início</a>
+    <a href="#" data-view="itens" data-sidebar-link="true"><span>📦</span> Meus Itens</a>
+    <a href="#" data-view="automovel" data-sidebar-link="true"><span>🚗</span> Automóvel</a>
+    <a href="#" data-view="alertas" data-sidebar-link="true"><span>🔔</span> Alertas</a>
+    <a href="#" data-view="documentos" data-sidebar-link="true"><span>📁</span> Cofre de Documentos</a>
+    <a href="#" data-view="familia" data-sidebar-link="true"><span>👨‍👩‍👧</span> Casa Partilhada</a>
+    <a href="#" data-view="relatorios" data-sidebar-link="true"><span>📊</span> Relatórios</a>
+    <button id="logout-btn">Sair</button>
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- === INÍCIO === -->
+  <div id="view-inicio" class="view active">
+    <div>
+      <p class="subtitle" id="greetingText">Olá 👋</p>
+      <h1 class="welcome">Bem-vindo de volta à tua casa.</h1>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Itens registados</h3>
+        <div class="stat-value" id="statTotal">—</div>
+        <p class="stat-note stat-note--accent" id="statNewMonth"></p>
+      </div>
+      <div class="stat-card">
+        <h3>Garantias ativas</h3>
+        <div class="stat-value" id="statAtivas">—</div>
+      </div>
+      <div class="stat-card urgent">
+        <h3>Expiram em &lt; 30 dias</h3>
+        <div class="stat-value" id="statExpirando">—</div>
+        <p class="stat-note">Ação recomendada</p>
+      </div>
+      <div class="stat-card">
+        <h3>Valor total registado</h3>
+        <div class="stat-value stat-value--accent" id="statValor">—</div>
+      </div>
+    </div>
+
+    <div class="alerts-section">
+      <div class="section-header">
+        <h2 class="section-title">Alertas importantes</h2>
+        <a href="#" data-dashboard-link="alertas" class="section-link">Ver todos →</a>
+      </div>
+      <div id="alertsList"><div class="loading">A carregar alertas...</div></div>
+    </div>
+
+    <div class="section-header u-mt-60">
+      <h2 class="section-title">Itens recentes</h2>
+      <a href="addItem.html" class="section-link">+ Adicionar item →</a>
+    </div>
+    <div class="items-grid" id="recentItemsGrid"><div class="loading">A carregar itens...</div></div>
+
+    <div class="dashboard-footer">
+      Feito com ❤️ em Angola para o mundo • Zelo © 2026
+    </div>
+  </div>
+
+  <!-- === MEUS ITENS === -->
+  <div id="view-itens" class="view">
+    <div class="dashboard-toolbar">
+      <div>
+        <p class="subtitle">Inventário completo</p>
+        <h1 class="welcome">Meus Itens</h1>
+      </div>
+      <a href="addItem.html">
+        <button class="btn-primary u-mt-8">+ Adicionar Novo Item</button>
+      </a>
+    </div>
+
+    <div class="category-tabs u-mt-32" id="categoryTabs">
+      <button class="cat-tab active" data-category="todos">🗂 Todos</button>
+      <button class="cat-tab" data-category="eletrodomestico">🏠 Eletrodomésticos</button>
+      <button class="cat-tab" data-category="eletronica">📱 Eletrónica</button>
+      <button class="cat-tab" data-category="automovel">🚗 Automóvel</button>
+      <button class="cat-tab" data-category="moveis">🪑 Móveis</button>
+      <button class="cat-tab" data-category="outros">📦 Outros</button>
+    </div>
+
+    <div class="items-grid" id="allItemsGrid"><div class="loading">A carregar...</div></div>
+  </div>
+
+  <!-- === ALERTAS === -->
+  <div id="view-alertas" class="view">
+    <p class="subtitle">Notificações</p>
+    <h1 class="welcome">Alertas</h1>
+    <div class="u-mt-40" id="allAlertsList"><div class="loading">A carregar alertas...</div></div>
+  </div>
+
+  <!-- === AUTOMÓVEL === -->
+  <div id="view-automovel" class="view">
+    <p class="subtitle">Gestão</p>
+    <h1 class="welcome">Automóvel</h1>
+    <div class="items-grid u-mt-40" id="automovelGrid"></div>
+  </div>
+
+  <!-- === COFRE DE DOCUMENTOS === -->
+  <div id="view-documentos" class="view">
+    <p class="subtitle">Armazena as tuas faturas e documentos</p>
+    <h1 class="welcome">Cofre de Documentos</h1>
+    <div class="empty-state u-mt-60">
+      <div>📁</div>
+      <p>Integração de documentos em breve.<br>Associa faturas e manuais a cada item.</p>
+    </div>
+  </div>
+
+  <!-- === CASA PARTILHADA === -->
+  <div id="view-familia" class="view">
+    <p class="subtitle">Gestão em conjunto</p>
+    <h1 class="welcome">Casa Partilhada</h1>
+    <div class="empty-state u-mt-60">
+      <div>👨‍👩‍👧</div>
+      <p>Em breve podes convidar membros da família<br>para gerir o lar juntos.</p>
+    </div>
+  </div>
+
+  <!-- === RELATÓRIOS === -->
+  <div id="view-relatorios" class="view">
+    <p class="subtitle">Análise</p>
+    <h1 class="welcome">Relatórios</h1>
+    <div class="empty-state u-mt-60">
+      <div>📊</div>
+      <p>Relatórios detalhados em breve.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ITEM DETAIL MODAL -->
+<div class="modal-overlay" id="itemModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal="itemModal">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal="profileModal">✕</button>
+    <h2 class="modal-title u-mb-24">✏️ Editar Perfil</h2>
+    <div class="profile-form" id="profileForm"></div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-card confirm-modal-card">
+    <button class="modal-close" type="button" data-confirm-cancel>&times;</button>
+    <div class="confirm-modal-icon">&#9888;</div>
+    <div class="confirm-modal-badge">Aten&ccedil;&atilde;o</div>
+
+    <h2 class="modal-title confirm-modal-title" id="confirmModalTitle">Eliminar item?</h2>
+    <p class="confirm-modal-copy" id="confirmModalMessage"></p>
+    
+    <div class="modal-actions confirm-modal-actions">
+      <button class="btn-secondary" type="button" id="confirmModalCancel">Cancelar</button>
+      <button class="btn-danger confirm-modal-confirm" type="button" id="confirmModalConfirm">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT ITEM MODAL -->
+<div class="modal-overlay" id="editItemModal">
+  <div class="modal-card">
+    <button
+      class="modal-close"
+      data-close-modal="editItemModal">
+      ✕
+    </button>
+
+    <h2 class="modal-title u-mb-24">
+      ✏️ Editar Item
+    </h2>
+
+    <div class="edit-form">
+
+      <div class="form-group">
+        <label>Nome do Produto</label>
+        <input
+          type="text"
+          id="editItemNome"
+          class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label>Marca</label>
+        <input
+          type="text"
+          id="editItemMarca"
+          class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label>Notas</label>
+        <textarea
+          id="editItemNotas"
+          class="form-input"
+          rows="4"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          class="btn-secondary"
+          data-close-modal="editItemModal">
+          Cancelar
+        </button>
+
+        <button
+          class="btn-primary"
+          id="saveItemChangesBtn">
+          Salvar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

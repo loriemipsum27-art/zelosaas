@@ -1,0 +1,132 @@
+body[data-page='dashboard'] header,
+body[data-page='addItem'] header {
+  background: rgba(245, 240, 232, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+body[data-page='dashboard'] .logo,
+body[data-page='addItem'] .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.logo span {
+  color: var(--green-mid);
+}
+
+body[data-page='dashboard'] .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+body[data-page='dashboard'] .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+body[data-page='dashboard'] .mobile-menu-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(26, 23, 16, 0.12);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(26, 23, 16, 0.06);
+  transition: all 0.2s ease;
+}
+
+body[data-page='dashboard'] .mobile-menu-btn:hover {
+  background: var(--cream-dark);
+  transform: translateY(-1px);
+}
+
+body[data-page='dashboard'] .mobile-menu-btn span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+body[data-page='dashboard'] .search-bar {
+  background: var(--surface);
+  border: 1px solid rgba(26, 23, 16, 0.1);
+  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  width: 100px;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: width 0.3s ease;
+}
+
+body[data-page='dashboard'] .search-bar:focus {
+  width: 220px;
+  outline: none;
+  border-color: var(--green-mid);
+}
+
+body[data-page='dashboard'] .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--green-mid);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+body[data-page='addItem'] .page-context {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 600px) {
+  body[data-page='dashboard'] header {
+    padding: 14px 20px;
+  }
+
+  body[data-page='dashboard'] .nav-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  body[data-page='dashboard'] .mobile-menu-btn {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  body[data-page='dashboard'] .nav-right {
+    gap: 12px;
+    flex: 1;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+
+  body[data-page='dashboard'] .search-bar {
+    width: 100%;
+    max-width: 170px;
+    min-width: 0;
+  }
+
+  body[data-page='dashboard'] .search-bar:focus {
+    width: 100%;
+    max-width: 170px;
+  }
+}

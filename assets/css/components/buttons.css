@@ -1,0 +1,58 @@
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 14px 24px;
+  border: none;
+  
+}
+
+.btn-primary:hover {
+  background: var(--ink-soft);
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border-strong);
+  padding-inline: 14px;
+}
+
+.btn-secondary:hover {
+  background: var(--cream-dark);
+}
+
+.btn-danger {
+  background: transparent;
+  padding-inline: 14px;
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+
+.btn-danger:hover {
+  background: var(--danger-hover);
+}
+
+.btn-primary--compact {
+  padding: 10px 24px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.btn-primary--full {
+  width: 100%;
+}

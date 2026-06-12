@@ -1,0 +1,94 @@
+body[data-page='dashboard'] .sidebar {
+  position: fixed;
+  left: 0;
+  top: 72px;
+  bottom: 0;
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border-soft);
+  padding: 32px 20px;
+  font-size: 14px;
+  overflow-y: auto;
+}
+
+body[data-page='dashboard'] .sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 72px 0 0;
+  background: rgba(26, 23, 16, 0.34);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+body[data-page='dashboard'] .sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  margin-bottom: 4px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+body[data-page='dashboard'] .sidebar a:hover,
+body[data-page='dashboard'] .sidebar a.active {
+  background: var(--cream-dark);
+  color: var(--ink);
+}
+
+body[data-page='dashboard'] .sidebar a span {
+  font-size: 20px;
+}
+
+body[data-page='dashboard'] #logout-btn {
+  width: 100%;
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  margin-top: 18px;
+  padding: 28px 24px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: large;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+}
+
+body[data-page='dashboard'] #logout-btn:hover {
+  background: var(--ink-soft);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  body[data-page='dashboard'] .sidebar {
+    display: block;
+    top: 0;
+    bottom: 0;
+    z-index: 110;
+    width: min(82vw, 300px);
+    padding-top: 96px;
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+    box-shadow: var(--shadow-mobile-sidebar);
+  }
+
+  body[data-page='dashboard'] .sidebar-backdrop {
+    display: block;
+  }
+
+  body[data-page='dashboard'].sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  body[data-page='dashboard'].sidebar-open .sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
