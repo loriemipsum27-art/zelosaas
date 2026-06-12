@@ -1,9 +1,11 @@
 export function openModal(id) {
   document.getElementById(id)?.classList.add('open');
+  document.body.classList.add('no-scroll');
 }
 
 export function closeModal(id) {
   document.getElementById(id)?.classList.remove('open');
+  document.body.classList.remove('no-scroll');
 }
 
 let modalSystemReady = false;

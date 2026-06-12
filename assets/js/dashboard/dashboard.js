@@ -20,10 +20,12 @@ function showView(viewId, linkEl) {
 
 function openMobileSidebar() {
   document.body.classList.add('sidebar-open');
+   document.body.classList.add('no-scroll');
 }
 
 function closeMobileSidebar() {
   document.body.classList.remove('sidebar-open');
+   document.body.classList.remove('no-scroll');
 }
 
 function bindMobileSidebar() {

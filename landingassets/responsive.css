@@ -10,7 +10,8 @@
     top: 64px;
     right: 0;
     width: 260px;
-    height: calc(100dvh - 64px);
+    /*height: calc(100dvh - 64px);*/
+    height: 100dvh;
     padding: 24px;
     background: rgb(32,32,32);
     flex-direction: column;

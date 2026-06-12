@@ -33,3 +33,8 @@
   flex-wrap: wrap;
   gap: 16px;
 }
+
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
